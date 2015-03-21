@@ -1,7 +1,7 @@
-appengine-endpoints-helloendpoints-java-maven
+endpoints-template
 =============================================
 
-A "hello world" application for Google Cloud Endpoints in Java.
+A "hello world" application for Google Cloud Endpoints in Java, using Objectify to access the datastore. 
 
 - [App Engine][1]
 
@@ -10,6 +10,28 @@ A "hello world" application for Google Cloud Endpoints in Java.
 - [Google Cloud Endpoints][3]
 - [Google App Engine Maven plugin][4]
 
+1. To create a new project for this tutorial:
+
+    1. Make sure you are logged into the Google account you want to use for the project.
+
+    1. Visit the Google Developers Console. You may need to accept one or more Terms of Service.
+
+    1. Click Create Project.
+
+    1. In the New Project dialog, assign some name for your project. It doesn't have to match the name you assign to your Maven project (described later). You can accept the project ID or make up your own.
+
+    1. Click Create to create the project.
+
+    1. Note the project ID, as you'll need it later. (Alternatively, you can revisit the project later in the console to determine its ID.)
+
+    1. Click APIs & auth > Credentials > Create new Client ID.
+
+    1. If this is a new project, fill out the Create Client ID form:
+
+    1. Select Web application as the Application Type.
+    1. Specify http://localhost:8080 in the textbox labeled AUTHORIZED JAVASCRIPT ORIGINS. (This is for local testing.)
+    1. Click Create Client ID.
+    1. Keep this tab open so you can look up the client and project IDs later.
 
 1. Update the value of `application` in `appengine-web.xml` to the app
    ID you have registered in the App Engine admin console and would

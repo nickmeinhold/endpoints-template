@@ -4,7 +4,7 @@ package co.enspyr.endpointstemplate;
  * Contains the client IDs and scopes for allowed clients consuming the helloworld API.
  */
 public class Constants {
-  public static final String WEB_CLIENT_ID = "replace this with your web client ID";
+  public static final String WEB_CLIENT_ID = "733256089952-v0gfvl7ca166pa1vldth1lh2l1s28ma2.apps.googleusercontent.com";
   public static final String ANDROID_CLIENT_ID = "replace this with your Android client ID";
   public static final String IOS_CLIENT_ID = "replace this with your iOS client ID";
   public static final String ANDROID_AUDIENCE = WEB_CLIENT_ID;

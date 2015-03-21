@@ -28,10 +28,10 @@ A "hello world" application for Google Cloud Endpoints in Java, using Objectify 
 
     1. If this is a new project, fill out the Create Client ID form:
 
-    1. Select Web application as the Application Type.
-    1. Specify http://localhost:8080 in the textbox labeled AUTHORIZED JAVASCRIPT ORIGINS. (This is for local testing.)
-    1. Click Create Client ID.
-    1. Keep this tab open so you can look up the client and project IDs later.
+        1. Select Web application as the Application Type.
+        1. Specify https://endpoints-template.appspot.com (for live app, note https) and http://localhost:8080 (for local testing, note http) in the textbox labeled AUTHORIZED JAVASCRIPT ORIGINS.
+        1. Click Create Client ID.
+        1. Keep this tab open so you can look up the client and project IDs later.
 
 1. Update the value of `application` in `appengine-web.xml` to the app
    ID you have registered in the App Engine admin console and would

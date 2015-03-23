@@ -1,53 +1,45 @@
 
 /**
  * @fileoverview
- * Provides methods for the Hello Endpoints sample UI and interaction with the
- * Hello Endpoints API.
+ * Provides methods for the Endpoints Template UI and interaction with the
+ * Endpoints Template API.
  *
- * @author danielholevoet@google.com (Dan Holevoet)
+ * @author nick.meinhold@gmail.com (Nick Meinhold)
  */
 
-/** google global namespace for Google projects. */
-var google = google || {};
-
-/** devrel namespace for Google Developer Relations projects. */
-google.devrel = google.devrel || {};
-
-/** samples namespace for DevRel sample code. */
-google.devrel.samples = google.devrel.samples || {};
-
-/** hello namespace for this sample. */
-google.devrel.samples.hello = google.devrel.samples.hello || {};
+/** global namespace for this project. */
+var enpointstemplatefrontend = enpointstemplatefrontend || {};
 
 /**
  * Client ID of the application (from the APIs Console).
  * @type {string}
  */
-google.devrel.samples.hello.CLIENT_ID =
+enpointstemplatefrontend.CLIENT_ID =
     '733256089952-v0gfvl7ca166pa1vldth1lh2l1s28ma2.apps.googleusercontent.com';
 
 /**
  * Scopes used by the application.
  * @type {string}
  */
-google.devrel.samples.hello.SCOPES =
+enpointstemplatefrontend.SCOPES =
     'https://www.googleapis.com/auth/userinfo.email';
 
 /**
  * Whether or not the user is signed in.
  * @type {boolean}
  */
-google.devrel.samples.hello.signedIn = false;
+enpointstemplatefrontend.signedIn = false;
 
 /**
  * Loads the application UI after the user has completed auth.
  */
-google.devrel.samples.hello.userAuthed = function() {
+enpointstemplatefrontend.userAuthed = function() {
   var request = gapi.client.oauth2.userinfo.get().execute(function(resp) {
     if (!resp.code) {
-      google.devrel.samples.hello.signedIn = true;
+      enpointstemplatefrontend.signedIn = true;
       document.getElementById('signinButton').innerHTML = 'Sign out';
-      document.getElementById('authedGreeting').disabled = false;
+      document.getElementById('setDisplayName').disabled = false;
+      enpointstemplatefrontend.getProfile(); 
     }
   });
 };
@@ -57,46 +49,55 @@ google.devrel.samples.hello.userAuthed = function() {
  * @param {boolean} mode Whether or not to use immediate mode.
  * @param {Function} callback Callback to call on completion.
  */
-google.devrel.samples.hello.signin = function(mode, callback) {
-  gapi.auth.authorize({client_id: google.devrel.samples.hello.CLIENT_ID,
-      scope: google.devrel.samples.hello.SCOPES, immediate: mode},
+enpointstemplatefrontend.signin = function(mode, callback) {
+  gapi.auth.authorize({client_id: enpointstemplatefrontend.CLIENT_ID,
+      scope: enpointstemplatefrontend.SCOPES, immediate: mode},
       callback);
 };
 
 /**
  * Presents the user with the authorization popup.
  */
-google.devrel.samples.hello.auth = function() {
-  if (!google.devrel.samples.hello.signedIn) {
-    google.devrel.samples.hello.signin(false,
-        google.devrel.samples.hello.userAuthed);
+enpointstemplatefrontend.auth = function() {
+  if (!enpointstemplatefrontend.signedIn) {
+    enpointstemplatefrontend.signin(false,
+        enpointstemplatefrontend.userAuthed);
   } else {
-    google.devrel.samples.hello.signedIn = false;
+    enpointstemplatefrontend.signedIn = false;
     document.getElementById('signinButton').innerHTML = 'Sign in';
-    document.getElementById('authedGreeting').disabled = true;
+    document.getElementById('setDisplayName').disabled = true;
+    enpointstemplatefrontend.outputDisplayName('Not logged in.'); 
   }
 };
 
 /**
- * Prints a greeting to the greeting log.
- * param {Object} greeting Greeting to print.
+ * Prints a message to the message log.
+ * param {Object} message Message to print.
  */
-google.devrel.samples.hello.print = function(greeting) {
+enpointstemplatefrontend.print = function(message) {
   var element = document.createElement('div');
   element.classList.add('row');
-  element.innerHTML = greeting.message;
+  element.innerHTML = message;
   document.getElementById('outputLog').appendChild(element);
 };
 
 /**
- * Gets a numbered greeting via the API.
- * @param {string} id ID of the greeting.
+ * Outputs the display name in the banner.
+ * param {Object} profile Profile with display name.
  */
-google.devrel.samples.hello.getGreeting = function(id) {
-  gapi.client.helloworld.greetings.getGreeting({'id': id}).execute(
+enpointstemplatefrontend.outputDisplayName = function(name) {
+  document.getElementById('displayName').innerHTML = name;
+};
+
+/**
+ * Sets the user's display name via the API.
+ * @param {string} name Display name for the profile.
+ */
+enpointstemplatefrontend.setDisplayName = function(name) {
+  gapi.client.enpointstemplateapi.setDisplayName({'name': name}).execute(
       function(resp) {
         if (!resp.code) {
-          google.devrel.samples.hello.print(resp);
+        	enpointstemplatefrontend.outputDisplayName("Welcome "+resp.displayName);
         } else {
           window.alert(resp.message);
         }
@@ -104,92 +105,50 @@ google.devrel.samples.hello.getGreeting = function(id) {
 };
 
 /**
- * Lists greetings via the API.
+ * Retrieves the profile for the current user via the API.
+ * Also sets the display name. 
  */
-google.devrel.samples.hello.listGreeting = function() {
-  gapi.client.helloworld.greetings.listGreeting().execute(
+enpointstemplatefrontend.getProfile = function() {
+  gapi.client.enpointstemplateapi.getProfile().execute(
       function(resp) {
         if (!resp.code) {
-          resp.items = resp.items || [];
-          for (var i = 0; i < resp.items.length; i++) {
-            google.devrel.samples.hello.print(resp.items[i]);
-          }
+        	enpointstemplatefrontend.outputDisplayName("Welcome "+resp.displayName);
+        } else {
+          window.alert(resp.message);
         }
-      });
-};
-
-/**
- * Gets a greeting a specified number of times.
- * @param {string} greeting Greeting to repeat.
- * @param {string} count Number of times to repeat it.
- */
-google.devrel.samples.hello.multiplyGreeting = function(
-    greeting, times) {
-  gapi.client.helloworld.greetings.multiply({
-      'message': greeting,
-      'times': times
-    }).execute(function(resp) {
-      if (!resp.code) {
-        google.devrel.samples.hello.print(resp);
-      }
-    });
-};
-
-/**
- * Greets the current user via the API.
- */
-google.devrel.samples.hello.authedGreeting = function(id) {
-  gapi.client.helloworld.greetings.authed().execute(
-      function(resp) {
-        google.devrel.samples.hello.print(resp);
       });
 };
 
 /**
  * Enables the button callbacks in the UI.
  */
-google.devrel.samples.hello.enableButtons = function() {
-  document.getElementById('getGreeting').onclick = function() {
-    google.devrel.samples.hello.getGreeting(
-        document.getElementById('id').value);
-  }
-
-  document.getElementById('listGreeting').onclick = function() {
-    google.devrel.samples.hello.listGreeting();
-  }
-
-  document.getElementById('multiplyGreetings').onclick = function() {
-    google.devrel.samples.hello.multiplyGreeting(
-        document.getElementById('greeting').value,
-        document.getElementById('count').value);
-  }
-
-  document.getElementById('authedGreeting').onclick = function() {
-    google.devrel.samples.hello.authedGreeting();
-  }
+enpointstemplatefrontend.enableButtons = function() {
   
-  document.getElementById('signinButton').onclick = function() {
-    google.devrel.samples.hello.auth();
-  }
+	document.getElementById('setDisplayName').onclick = function() {
+		enpointstemplatefrontend.setDisplayName(document.getElementById('dispName').value); 
+	  }
+  
+	document.getElementById('signinButton').onclick = function() {
+		enpointstemplatefrontend.auth();
+	}
 };
 
 /**
  * Initializes the application.
  * @param {string} apiRoot Root of the API's path.
  */
-google.devrel.samples.hello.init = function(apiRoot) {
+enpointstemplatefrontend.init = function(apiRoot) {
   // Loads the OAuth and helloworld APIs asynchronously, and triggers login
   // when they have completed.
   var apisToLoad;
   var callback = function() {
     if (--apisToLoad == 0) {
-      google.devrel.samples.hello.enableButtons();
-      google.devrel.samples.hello.signin(true,
-          google.devrel.samples.hello.userAuthed);
+      enpointstemplatefrontend.enableButtons();
+      enpointstemplatefrontend.signin(true, enpointstemplatefrontend.userAuthed);
     }
   }
 
   apisToLoad = 2; // must match number of calls to gapi.client.load()
-  gapi.client.load('helloworld', 'v1', callback, apiRoot);
+  gapi.client.load('enpointstemplateapi', 'v1', callback, apiRoot);
   gapi.client.load('oauth2', 'v2', callback);
 };

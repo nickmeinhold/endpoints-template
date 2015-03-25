@@ -1,7 +1,15 @@
 endpoints-template
 =============================================
 
-A "hello world" application for Google Cloud Endpoints in Java, using Objectify to access the datastore. 
+- changes required when creating a new project from the template 
+- front end namespace 
+    - index.html 
+    - base.js (Find/Replace) 
+- API Name 
+    - EndpointsTemplate.java 
+    - base.js (Find/Replace) 
+
+A template for a Google Cloud Endpoints app in Java, using Objectify to access the datastore. 
 
 1. Create a new project with maven. 
 

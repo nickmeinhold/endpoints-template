@@ -1,13 +1,26 @@
 endpoints-template
 =============================================
 
-- changes required when creating a new project from the template 
+Changes required when creating a new project from the template 
 - front end namespace 
     - index.html 
     - base.js (Find/Replace) 
 - API Name 
     - EndpointsTemplate.java 
     - base.js (Find/Replace) 
+- change "endpointstemplate" -> <project_name> 
+    - pom.xml 
+    - co/enspyr/endpointstemplate (change dir name) 
+    - web.xml 
+    - all .java files 
+- TemplateAPI -> <ProjectName>API 
+    - web.xml 
+    - co/enspyr/<project_name>/TemplateAPI.java (change file name) 
+- cloud-endpoints-template -> project-id 
+    - appengine-web.xml 
+- client-id -> new-client-id 
+    - Constants.java 
+    - base.js 
 
 A template for a Google Cloud Endpoints app in Java, using Objectify to access the datastore. 
 

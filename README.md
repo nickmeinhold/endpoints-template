@@ -8,14 +8,14 @@ Changes required when creating a new project from the template
 - API Name 
     - EndpointsTemplate.java 
     - base.js (Find/Replace) 
-- change "endpointstemplate" -> <project_name> 
+- change "endpointstemplate" -> project_name 
     - pom.xml 
     - co/enspyr/endpointstemplate (change dir name) 
     - web.xml 
     - all .java files 
 - TemplateAPI -> <ProjectName>API 
     - web.xml 
-    - co/enspyr/<project_name>/TemplateAPI.java (change file name) 
+    - co/enspyr/project_name/TemplateAPI.java (change file name) 
 - cloud-endpoints-template -> project-id 
     - appengine-web.xml 
 - client-id -> new-client-id 
